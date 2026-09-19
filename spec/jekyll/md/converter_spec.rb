@@ -41,9 +41,37 @@ describe Jekyll::Md::Converter do
       expect(converter.convert(html, selector: '#content')).to eq("used\n")
     end
 
-    it 'replaces non-breaking spaces with regular spaces' do
-      html = "<body><div id=\"content\">hello\u00A0world</div></body>"
-      expect(converter.convert(html, selector: '#content')).to eq("hello world\n")
+    context 'with special characters' do
+      it 'replaces a non-breaking space in plain text with a regular space' do
+        html = "<body><div id=\"content\">hello\u00A0world</div></body>"
+        expect(converter.convert(html, selector: '#content')).to eq("hello world\n")
+      end
+
+      it 'replaces multiple consecutive non-breaking spaces' do
+        html = "<body><div id=\"content\">a\u00A0\u00A0b</div></body>"
+        expect(converter.convert(html, selector: '#content')).to eq("a b\n")
+      end
+
+      it 'replaces a non-breaking space between inline elements' do
+        html = "<body><div id=\"content\"><b>a</b>\u00A0<b>b</b></div></body>"
+        expect(converter.convert(html, selector: '#content')).to eq("**a**  **b**\n")
+      end
+
+      it 'does not corrupt literal &amp;nbsp; text written out inside inline code' do
+        html = '<body><div id="content">Use <code>&amp;nbsp;</code> for a non-breaking space.</div></body>'
+        expect(converter.convert(html, selector: '#content'))
+          .to eq("Use `&nbsp;` for a non-breaking space.\n")
+      end
+
+      it 'does not corrupt literal &amp;nbsp; text written out inside a code block' do
+        html = '<body><div id="content"><pre><code>&amp;nbsp;</code></pre></div></body>'
+        expect(converter.convert(html, selector: '#content')).to eq("```\n&nbsp;\n```\n")
+      end
+
+      it 'leaves other special characters untouched' do
+        html = "<body><div id=\"content\">caf\u00E9 \u2014 \u201Cquoted\u201D \u2026 \u00A9 2026</div></body>"
+        expect(converter.convert(html, selector: '#content')).to eq("caf\u00E9 \u2014 \u201Cquoted\u201D \u2026 \u00A9 2026\n")
+      end
     end
 
     it 'returns nil when the selector matches nothing' do

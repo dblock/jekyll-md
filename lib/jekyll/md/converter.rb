@@ -36,17 +36,13 @@ module Jekyll
         return nil unless node
 
         @strip_selectors.each { |s| node.css(s).remove }
+        normalize_non_breaking_spaces(node)
 
         markdown = ReverseMarkdown.convert(
           node.inner_html,
           unknown_tags: :bypass,
           github_flavored: true
         ).strip
-
-        # reverse_markdown renders non-breaking spaces (U+00A0) as the
-        # literal HTML entity "&nbsp;" instead of a plain space, leaking
-        # HTML into otherwise clean Markdown.
-        markdown = markdown.gsub('&nbsp;', ' ')
 
         return nil if markdown.empty?
 
@@ -71,6 +67,25 @@ module Jekyll
       end
 
       private
+
+      # reverse_markdown renders non-breaking spaces (U+00A0) as the
+      # literal HTML entity "&nbsp;" instead of a plain space, leaking
+      # HTML into otherwise clean Markdown. Replace them with a regular
+      # space before conversion, but only outside <code>/<pre>, so we
+      # don't corrupt code that legitimately contains the literal text
+      # "&nbsp;" (e.g. documenting the entity itself) or real non-
+      # breaking spaces preserved verbatim in a code sample.
+      def normalize_non_breaking_spaces(node)
+        node.traverse do |child|
+          next unless child.text? && !within_code_or_pre?(child)
+
+          child.content = child.content.gsub("\u00A0", ' ')
+        end
+      end
+
+      def within_code_or_pre?(node)
+        node.ancestors.any? { |a| %w[code pre].include?(a.name) }
+      end
 
       def default_node_for(doc)
         DEFAULT_SELECTORS.each do |selector|
