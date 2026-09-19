@@ -102,6 +102,10 @@ Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front mat
 
 Unlike `jekyll-md`, [jekyll-llms](https://github.com/skatkov/jekyll-llms) generates Markdown sidecars from each page's **source** — your original Markdown/HTML file, with Liquid resolved but otherwise untouched — plus an `llms.txt` index. Inline HTML (`<a>`, `<img>`, tables, embeds, etc.) leaks through verbatim, and only pages with Markdown/HTML source get a sidecar, not generated pages like tag or pagination pages.
 
+### jekyll-markdown-output
+
+Like `jekyll-llms`, [jekyll-markdown-output](https://github.com/abhinavs/jekyll-markdown-output) converts from each document's **source** rather than its rendered HTML, re-reading the original file from disk and re-rendering Liquid against it, so only docs in configured collections and pages with a `.md`/`.markdown` source file get a sidecar — not generated pages like tag or pagination pages. It also adds a synthetic YAML front matter block (title, date, url, summary, tags, category, author) and an optional `# Title` heading to each output file, which `jekyll-md` does not do, but it has no equivalent to `jekyll-md`'s `<link rel="alternate" type="text/markdown">` discovery tag, so agents have to guess the `.md` URL exists rather than find it in the page's `<head>`.
+
 ## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md).
