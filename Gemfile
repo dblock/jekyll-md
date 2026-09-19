@@ -10,4 +10,6 @@ group :development, :test do
   gem 'rubocop', '1.91.0'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
+  gem 'simplecov'
+  gem 'simplecov-lcov', require: false
 end

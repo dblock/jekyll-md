@@ -1,6 +1,7 @@
 # jekyll-md
 
 [![Test](https://github.com/dblock/jekyll-md/actions/workflows/test.yml/badge.svg)](https://github.com/dblock/jekyll-md/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/dblock/jekyll-md/badge.svg?branch=main)](https://coveralls.io/github/dblock/jekyll-md?branch=main)
 
 A Jekyll plugin that serves a clean Markdown version of every page, for AI agents and other machine readers.
 
