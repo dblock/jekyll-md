@@ -93,9 +93,7 @@ If a page at the derived destination path already exists after Jekyll writes the
 
 [jekyll-llms](https://github.com/skatkov/jekyll-llms) generates Markdown sidecars from each page's **source** — your original Markdown/HTML file, with Liquid resolved but otherwise untouched — plus an `llms.txt` index.
 
-`jekyll-md` instead converts the page's **final, fully rendered HTML output** (after layouts, includes, and Liquid have all run) back into Markdown, using [reverse_markdown](https://github.com/xijo/reverse_markdown). This matters if your pages/posts contain inline HTML (`<a>`, `<img>`, tables, embeds, etc.) mixed into Markdown source, or use includes/layouts to build up their content: converting the rendered HTML turns all of that into clean Markdown syntax, instead of leaking raw HTML tags into the served `.md`. It also means every generated page gets a `.md` counterpart, not just posts and pages with Markdown source — including tag pages, pagination pages, and any other page your site generates.
-
-The tradeoff is that `jekyll-md` doesn't generate an `llms.txt` index. If you want both, you can run both plugins together.
+`jekyll-md` instead converts the page's **final, fully rendered HTML output** back into Markdown, using [reverse_markdown](https://github.com/xijo/reverse_markdown), so inline HTML (`<a>`, `<img>`, tables, embeds, etc.) becomes clean Markdown instead of leaking through verbatim, and every generated page — including tag and pagination pages — gets a `.md` counterpart.
 
 ## Contributing
 
