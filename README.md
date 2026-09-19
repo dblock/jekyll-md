@@ -87,13 +87,6 @@ If a page at the derived destination path already exists after Jekyll writes the
 1. `:pages`/`:documents`, `:post_render` — after a page's layout and Liquid have fully rendered, inject the `<link rel="alternate">` tag into its `<head>`.
 2. `:site`, `:post_write` — after Jekyll has written the whole site to disk, walk every page and document, extract the configured selector (or the whole `<body>`) from its rendered HTML, convert it to Markdown, and write it next to the HTML output.
 
-## Development
-
-```bash
-bundle install
-bundle exec rake
-```
-
 ## Similar Projects
 
 ### jekyll-llms
@@ -106,7 +99,7 @@ The tradeoff is that `jekyll-md` doesn't generate an `llms.txt` index. If you wa
 
 ## Contributing
 
-Pull requests are welcome.
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## Copyright and License
 
