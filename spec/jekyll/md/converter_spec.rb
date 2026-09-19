@@ -41,6 +41,11 @@ describe Jekyll::Md::Converter do
       expect(converter.convert(html, selector: '#content')).to eq("used\n")
     end
 
+    it 'replaces non-breaking spaces with regular spaces' do
+      html = "<body><div id=\"content\">hello\u00A0world</div></body>"
+      expect(converter.convert(html, selector: '#content')).to eq("hello world\n")
+    end
+
     it 'returns nil when the selector matches nothing' do
       html = '<body><div id="other">x</div></body>'
       expect(converter.convert(html, selector: '#content')).to be_nil

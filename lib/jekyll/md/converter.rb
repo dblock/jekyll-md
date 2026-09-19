@@ -43,6 +43,11 @@ module Jekyll
           github_flavored: true
         ).strip
 
+        # reverse_markdown renders non-breaking spaces (U+00A0) as the
+        # literal HTML entity "&nbsp;" instead of a plain space, leaking
+        # HTML into otherwise clean Markdown.
+        markdown = markdown.gsub('&nbsp;', ' ')
+
         return nil if markdown.empty?
 
         "#{markdown}\n"
