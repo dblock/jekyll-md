@@ -15,6 +15,12 @@ module Jekyll
     # full page render (includes, site variables, conditionals) is
     # already fully resolved.
     class Converter
+      # When no selector is configured, try these, in order, before
+      # falling back to the whole <body>. `<main>`/`[role="main"]` are
+      # the closest thing to an HTML convention for "this is the page's
+      # content, not its header/nav/footer chrome".
+      DEFAULT_SELECTORS = ['main', '[role="main"]'].freeze
+
       def initialize(strip_selectors: [])
         @strip_selectors = strip_selectors
       end
@@ -22,10 +28,11 @@ module Jekyll
       # Returns the converted Markdown for +html+, scoped to +selector+
       # (a CSS selector), or nil if the selector doesn't match anything.
       #
-      # When +selector+ is nil, the entire page's <body> is converted.
+      # When +selector+ is nil, tries DEFAULT_SELECTORS in turn, falling
+      # back to the entire page's <body> if none of them match.
       def convert(html, selector: nil)
         doc = Nokogiri::HTML(html)
-        node = doc.at_css(selector || 'body')
+        node = selector ? doc.at_css(selector) : default_node_for(doc)
         return nil unless node
 
         @strip_selectors.each { |s| node.css(s).remove }
@@ -56,6 +63,17 @@ module Jekyll
         else
           "#{url}.md"
         end
+      end
+
+      private
+
+      def default_node_for(doc)
+        DEFAULT_SELECTORS.each do |selector|
+          node = doc.at_css(selector)
+          return node if node
+        end
+
+        doc.at_css('body')
       end
     end
   end

@@ -21,9 +21,24 @@ describe Jekyll::Md::Converter do
       expect(converter.convert(html, selector: '#content')).to eq("keep\n")
     end
 
-    it 'converts the whole body when no selector is given' do
+    it 'converts the whole body when no selector is given and there is no <main>' do
       html = '<html><body><p>a</p><p>b</p></body></html>'
       expect(converter.convert(html)).to eq("a\n\nb\n")
+    end
+
+    it 'prefers <main> over the whole body when no selector is given' do
+      html = '<body><header>nav</header><main><p>content</p></main><footer>foot</footer></body>'
+      expect(converter.convert(html)).to eq("content\n")
+    end
+
+    it 'prefers [role="main"] over the whole body when no <main> tag exists' do
+      html = '<body><header>nav</header><div role="main"><p>content</p></div></body>'
+      expect(converter.convert(html)).to eq("content\n")
+    end
+
+    it 'uses the explicit selector even when <main> is present' do
+      html = '<body><main>ignored</main><div id="content">used</div></body>'
+      expect(converter.convert(html, selector: '#content')).to eq("used\n")
     end
 
     it 'returns nil when the selector matches nothing' do

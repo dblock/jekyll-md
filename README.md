@@ -25,11 +25,11 @@ And then run `bundle install`.
 
 No configuration is required to get started; every rendered HTML page gets a Markdown counterpart.
 
-### Configuring the CSS selector
+### Configuring the CSS Selector
 
-By default (no `selector` configured), `jekyll-md` converts the entire `<body>` of the page, including navigation, headers, footers, and anything else on the page. This is simple but rarely what you want for a real site: it dumps your header/nav/footer HTML into every single `.md` file.
+By default (no `selector` configured), `jekyll-md` looks for a `<main>` element or `[role="main"]` in the rendered page (the closest thing HTML has to a convention for "this is the content, not the header/nav/footer chrome"), and converts that. If your layouts don't use either of these, it falls back to converting the entire `<body>`, including navigation, headers, footers, and anything else on the page — this is simple but rarely what you want for a real site, since it dumps your header/nav/footer HTML into every single `.md` file.
 
-Set `selector` to a CSS selector that scopes the conversion to just your content, e.g. the wrapper `div` around `{{ content }}` in your layout:
+Many themes (including Jekyll's default `minima`) already wrap page content in `<main>`, so this default may work with no configuration at all. Otherwise, set `selector` to a CSS selector that scopes the conversion to just your content, e.g. the wrapper `div` around `{{ content }}` in your layout:
 
 ```yaml
 md:
@@ -53,12 +53,12 @@ md_selector: "#post-body"
 ---
 ```
 
-### Other configuration
+### Other Configuration
 
 ```yaml
 md:
   enabled: true              # master on/off switch, default true
-  selector: "#markdown-content" # CSS selector to convert; default nil (convert the entire page)
+  selector: "#markdown-content" # CSS selector to convert; default nil (try <main>/[role=main], then the whole page)
   strip: [script, style]    # elements always removed from the selected content before conversion
   link: true                 # inject <link rel="alternate" type="text/markdown"> into <head>, default true
   exclude:                   # array of URL glob patterns to skip entirely
@@ -66,7 +66,7 @@ md:
     - /assets/**
 ```
 
-### Per-page front matter
+### Per-Page Front Matter
 
 ```yaml
 ---
@@ -76,11 +76,11 @@ md_selector: "#x"  # override the selector for this page only
 ---
 ```
 
-### Avoiding clobbering hand-authored Markdown pages
+### Avoiding Clobbering Hand-Authored Markdown Pages
 
 If a page at the derived destination path already exists after Jekyll writes the site (for example, you hand-author `/tags.md` yourself from a data-driven Liquid template), `jekyll-md` will not overwrite it.
 
-## How it works
+## How It Works
 
 `jekyll-md` hooks into two points in the Jekyll build:
 
