@@ -7,7 +7,7 @@ gemspec
 group :development, :test do
   gem 'rake'
   gem 'rspec'
-  gem 'rubocop', '1.91.0'
+  gem 'rubocop'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
   gem 'simplecov'
