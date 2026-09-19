@@ -1,0 +1,7 @@
+title: Test Site
+url: "https://example.com"
+markdown: kramdown
+plugins:
+  - jekyll-md
+md:
+  selector: "#markdown-content"

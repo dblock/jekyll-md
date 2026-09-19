@@ -1,0 +1,8 @@
+*.gem
+.bundle
+Gemfile.lock
+pkg/
+coverage/
+spec/fixtures/site/_site/
+spec/fixtures/site/.jekyll-cache/
+.rspec_status
