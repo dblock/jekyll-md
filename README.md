@@ -5,7 +5,9 @@
 
 A Jekyll plugin that serves a clean Markdown version of every page, for AI agents and other machine readers.
 
-For every rendered HTML page, `jekyll-md` writes a sibling `.md` file (e.g. `/about/index.html` -> `/about.md`) and adds a `<link rel="alternate" type="text/markdown">` tag to the page's `<head>` so agents can discover it.
+![jekyll-md](images/jekyll-markdown.gif)
+
+For every rendered HTML page, `jekyll-md` writes a sibling `.md` file (e.g. `/about/index.html` -> `/about.md`) and adds a `<link rel="alternate" type="text/markdown">` tag to the page's `<head>` so agents can discover it. Read more in [Serving Markdown for AI Agents, Now as a Jekyll Plugin](https://code.dblock.org/2026/09/19/serving-markdown-with-a-jekyll-plugin.html).
 
 ## Installation
 
