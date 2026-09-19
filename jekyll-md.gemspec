@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
     sibling file (e.g. /about/index.html -> /about.md) and adds a discovery
     <link rel="alternate" type="text/markdown"> tag to every page's <head>.
   DESC
-  s.add_dependency 'jekyll', '>= 3.0'
+  s.add_dependency 'jekyll', '>= 4.4'
   s.add_dependency 'nokogiri'
   s.add_dependency 'reverse_markdown', '>= 2.0'
   s.metadata['rubygems_mfa_required'] = 'true'
