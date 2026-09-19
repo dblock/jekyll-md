@@ -12,9 +12,11 @@ describe Jekyll::Md::Configuration do
     it { expect(config.link?).to be(true) }
     it { expect(config.selector).to be_nil }
     it { expect(config.strip_selectors).to eq(%w[script style]) }
+    it { expect(config.title_heading?).to be(false) }
     it { expect(config.enabled_for?(item)).to be(true) }
     it { expect(config.link_for?(item)).to be(true) }
     it { expect(config.selector_for(item)).to be_nil }
+    it { expect(config.title_heading_for?(item)).to be(false) }
   end
 
   describe 'site-wide overrides' do
@@ -54,6 +56,30 @@ describe Jekyll::Md::Configuration do
     it 'overrides the selector via md_selector' do
       custom = double('item', url: '/foo/', data: { 'md_selector' => '#custom' }) # rubocop:disable RSpec/VerifiedDoubles
       expect(config.selector_for(custom)).to eq('#custom')
+    end
+  end
+
+  describe 'title heading' do
+    it 'is off by default' do
+      config = described_class.new({})
+      expect(config.title_heading_for?(item)).to be(false)
+    end
+
+    it 'is on when enabled site-wide' do
+      config = described_class.new('title_heading' => true)
+      expect(config.title_heading_for?(item)).to be(true)
+    end
+
+    it 'can be enabled per-page via md_title_heading: true' do
+      config = described_class.new({})
+      opted_in = double('item', url: '/foo/', data: { 'md_title_heading' => true }) # rubocop:disable RSpec/VerifiedDoubles
+      expect(config.title_heading_for?(opted_in)).to be(true)
+    end
+
+    it 'can be disabled per-page via md_title_heading: false when on site-wide' do
+      config = described_class.new('title_heading' => true)
+      opted_out = double('item', url: '/foo/', data: { 'md_title_heading' => false }) # rubocop:disable RSpec/VerifiedDoubles
+      expect(config.title_heading_for?(opted_out)).to be(false)
     end
   end
 end

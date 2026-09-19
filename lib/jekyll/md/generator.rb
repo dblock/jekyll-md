@@ -30,6 +30,8 @@ module Jekyll
         markdown = converter.convert(item.output, selector: config.selector_for(item))
         next unless markdown
 
+        markdown = "# #{item.data['title']}\n\n#{markdown}" if config.title_heading_for?(item) && item.data['title']
+
         FileUtils.mkdir_p(File.dirname(dest_path))
         File.write(dest_path, markdown)
       end

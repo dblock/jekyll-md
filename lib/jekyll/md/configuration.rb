@@ -9,7 +9,8 @@ module Jekyll
         'selector' => nil,
         'strip' => %w[script style],
         'link' => true,
-        'exclude' => []
+        'exclude' => [],
+        'title_heading' => false
       }.freeze
 
       def initialize(site_config)
@@ -30,6 +31,10 @@ module Jekyll
 
       def strip_selectors
         Array(@config['strip'])
+      end
+
+      def title_heading?
+        @config['title_heading'] == true
       end
 
       def excluded?(url)
@@ -54,6 +59,18 @@ module Jekyll
 
       def selector_for(item)
         item.data['md_selector'] || selector
+      end
+
+      # Whether to prepend a "# Title" heading (from the page's front
+      # matter `title`) to the converted Markdown body. Off by default
+      # since the title is usually already inside the converted
+      # selector/<main> region; useful when a layout renders the title
+      # outside of it.
+      #
+      #   md: false                     -- site-wide default
+      #   md_title_heading: true/false  -- per-page override
+      def title_heading_for?(item)
+        item.data['md_title_heading'].nil? ? title_heading? : item.data['md_title_heading'] != false
       end
     end
   end
