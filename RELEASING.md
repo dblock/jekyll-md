@@ -58,12 +58,10 @@ Add the next release to [CHANGELOG.md](CHANGELOG.md).
 
 Increment the third version number in [lib/jekyll/md/version.rb](lib/jekyll/md/version.rb).
 
-Run `bundle install` to update the Gemfile.lock.
-
 Commit your changes.
 
 ```
-git add CHANGELOG.md lib/jekyll/md/version.rb Gemfile.lock
+git add CHANGELOG.md lib/jekyll/md/version.rb
 git commit -m "Preparing for next development iteration, 0.2.1."
 git push origin main
 ```
