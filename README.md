@@ -90,6 +90,12 @@ If a page at the derived destination path already exists after Jekyll writes the
 1. `:pages`/`:documents`, `:post_render` — after a page's layout and Liquid have fully rendered, inject the `<link rel="alternate">` tag into its `<head>`.
 2. `:site`, `:post_write` — after Jekyll has written the whole site to disk, walk every page and document, extract the configured selector (or the whole `<body>`) from its rendered HTML, convert it to Markdown, and write it next to the HTML output.
 
+## llms.txt
+
+`jekyll-md` intentionally does not generate an [`llms.txt`](https://llmstxt.org). The spec asks for a *curated* index that "stays small enough to fit in context," explicitly contrasting itself with `sitemap.xml`, which it criticizes for being too large and unfiltered. A plugin can't know which of your pages are worth surfacing, and dumping every post/page (as some plugins do) just recreates the sitemap problem in Markdown.
+
+Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front matter, opting in specific content (e.g. via a per-page `llms: true` flag) rather than listing everything. See [run.dblock.org](https://run.dblock.org/llms.txt) for a working example that lists hand-picked posts and personal records out of a blog with 1000+ auto-generated posts: the [template](https://github.com/dblock/run.dblock.org/blob/gh-pages/llms.txt) and the [commit that added it](https://github.com/dblock/run.dblock.org/commit/8a4e7ca0).
+
 ## Similar Projects
 
 ### jekyll-llms
