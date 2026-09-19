@@ -104,8 +104,9 @@ Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front mat
 | [jekyll-llms](https://github.com/skatkov/jekyll-llms) | Source file | Automatic | Yes, exhaustive by default | Inline HTML leaks through verbatim; only pages with Markdown/HTML source get a sidecar |
 | [jekyll-markdown-output](https://github.com/abhinavs/jekyll-markdown-output) | Source file | None (manual URL guessing) | No | Adds a synthetic YAML front matter block (title, date, tags, etc.) and optional `# Title` heading to each sidecar |
 | [jekyll-agent-markdown](https://github.com/lucianghinda/jekyll-agent-markdown) | Source file | Manual (`{% agent_markdown_link %}` in layout) | Yes, curated (opt-in pages/collections, per-doc `section`/`optional`) | Can append a metadata footer/header (dates, author, description, source link) to each sidecar; also supports `llms-full.txt` |
+| [jekyll-third-audience](https://github.com/dbreunig/jekyll-third-audience) | Source file | Manual (Liquid tag in layout) | No | Posts only (configurable layouts); adds a synthetic front matter block (title, date, author, description, tags, url); can strip or rewrite `{% include %}` tags from the source before writing |
 
-All three alternatives convert from each document's **source** rather than its rendered HTML: they re-read the original Markdown/HTML file from disk (Liquid resolved, but otherwise untouched), so generated pages without a Markdown/HTML source (tag pages, pagination) don't get a sidecar, and inline HTML in the source leaks through verbatim rather than being converted.
+All four alternatives convert from each document's **source** rather than its rendered HTML: they re-read the original Markdown/HTML file from disk (Liquid resolved, but otherwise untouched), so generated pages without a Markdown/HTML source (tag pages, pagination) don't get a sidecar, and inline HTML in the source leaks through verbatim rather than being converted.
 
 ## Contributing
 
