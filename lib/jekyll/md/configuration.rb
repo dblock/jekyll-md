@@ -9,7 +9,8 @@ module Jekyll
         'selector' => nil,
         'strip' => %w[script style],
         'link' => true,
-        'exclude' => []
+        'exclude' => [],
+        'source_link' => false
       }.freeze
 
       def initialize(site_config)
@@ -30,6 +31,10 @@ module Jekyll
 
       def strip_selectors
         Array(@config['strip'])
+      end
+
+      def source_link?
+        @config['source_link'] == true
       end
 
       def excluded?(url)
@@ -54,6 +59,19 @@ module Jekyll
 
       def selector_for(item)
         item.data['md_selector'] || selector
+      end
+
+      # Whether to append a "Source: <url>" line pointing back at the
+      # canonical HTML page. Off by default; useful when a .md file may
+      # be shared or fetched on its own, since there's otherwise no way
+      # to get back to the live, styled page from it.
+      #
+      #   md: false                  -- site-wide default
+      #   md_source_link: true/false -- per-page override
+      def source_link_for?(item)
+        return false if excluded?(item.url)
+
+        item.data['md_source_link'].nil? ? source_link? : item.data['md_source_link'] != false
       end
     end
   end

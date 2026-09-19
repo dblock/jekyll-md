@@ -12,9 +12,11 @@ describe Jekyll::Md::Configuration do
     it { expect(config.link?).to be(true) }
     it { expect(config.selector).to be_nil }
     it { expect(config.strip_selectors).to eq(%w[script style]) }
+    it { expect(config.source_link?).to be(false) }
     it { expect(config.enabled_for?(item)).to be(true) }
     it { expect(config.link_for?(item)).to be(true) }
     it { expect(config.selector_for(item)).to be_nil }
+    it { expect(config.source_link_for?(item)).to be(false) }
   end
 
   describe 'site-wide overrides' do
@@ -54,6 +56,35 @@ describe Jekyll::Md::Configuration do
     it 'overrides the selector via md_selector' do
       custom = double('item', url: '/foo/', data: { 'md_selector' => '#custom' }) # rubocop:disable RSpec/VerifiedDoubles
       expect(config.selector_for(custom)).to eq('#custom')
+    end
+  end
+
+  describe 'source link' do
+    it 'is off by default' do
+      config = described_class.new({})
+      expect(config.source_link_for?(item)).to be(false)
+    end
+
+    it 'is on when enabled site-wide' do
+      config = described_class.new('source_link' => true)
+      expect(config.source_link_for?(item)).to be(true)
+    end
+
+    it 'can be enabled per-page via md_source_link: true' do
+      config = described_class.new({})
+      opted_in = double('item', url: '/foo/', data: { 'md_source_link' => true }) # rubocop:disable RSpec/VerifiedDoubles
+      expect(config.source_link_for?(opted_in)).to be(true)
+    end
+
+    it 'can be disabled per-page via md_source_link: false when on site-wide' do
+      config = described_class.new('source_link' => true)
+      opted_out = double('item', url: '/foo/', data: { 'md_source_link' => false }) # rubocop:disable RSpec/VerifiedDoubles
+      expect(config.source_link_for?(opted_out)).to be(false)
+    end
+
+    it 'is off for excluded urls even when enabled site-wide' do
+      config = described_class.new('source_link' => true, 'exclude' => ['/foo/*'])
+      expect(config.source_link_for?(item)).to be(false)
     end
   end
 end

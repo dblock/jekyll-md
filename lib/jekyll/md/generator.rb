@@ -30,6 +30,11 @@ module Jekyll
         markdown = converter.convert(item.output, selector: config.selector_for(item))
         next unless markdown
 
+        if config.source_link_for?(item)
+          source_url = "#{site.config['url']}#{site.config['baseurl']}#{item.url}"
+          markdown = "#{markdown}\nSource: #{source_url}\n"
+        end
+
         FileUtils.mkdir_p(File.dirname(dest_path))
         File.write(dest_path, markdown)
       end

@@ -64,6 +64,7 @@ md:
   selector: "#markdown-content" # CSS selector to convert; default nil (try <main>/[role=main], then the whole page)
   strip: [script, style]    # elements always removed from the selected content before conversion
   link: true                 # inject <link rel="alternate" type="text/markdown"> into <head>, default true
+  source_link: false         # append "Source: <url>" pointing back at the HTML page, default false
   exclude:                   # array of URL glob patterns to skip entirely
     - /404.html
     - /assets/**
@@ -73,9 +74,10 @@ md:
 
 ```yaml
 ---
-md: false          # opt this page out of Markdown generation entirely
-md_link: false     # generate the .md file, but don't add the <link> tag to this page
-md_selector: "#x"  # override the selector for this page only
+md: false               # opt this page out of Markdown generation entirely
+md_link: false          # generate the .md file, but don't add the <link> tag to this page
+md_selector: "#x"       # override the selector for this page only
+md_source_link: true    # override the site-wide source_link setting for this page only
 ---
 ```
 
