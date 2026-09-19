@@ -91,9 +91,7 @@ If a page at the derived destination path already exists after Jekyll writes the
 
 ### jekyll-llms
 
-[jekyll-llms](https://github.com/skatkov/jekyll-llms) generates Markdown sidecars from each page's **source** — your original Markdown/HTML file, with Liquid resolved but otherwise untouched — plus an `llms.txt` index.
-
-`jekyll-md` instead converts the page's **final, fully rendered HTML output** back into Markdown, using [reverse_markdown](https://github.com/xijo/reverse_markdown), so inline HTML (`<a>`, `<img>`, tables, embeds, etc.) becomes clean Markdown instead of leaking through verbatim, and every generated page — including tag and pagination pages — gets a `.md` counterpart.
+Unlike `jekyll-md`, [jekyll-llms](https://github.com/skatkov/jekyll-llms) generates Markdown sidecars from each page's **source** — your original Markdown/HTML file, with Liquid resolved but otherwise untouched — plus an `llms.txt` index. Inline HTML (`<a>`, `<img>`, tables, embeds, etc.) leaks through verbatim, and only pages with Markdown/HTML source get a sidecar, not generated pages like tag or pagination pages.
 
 ## Contributing
 
