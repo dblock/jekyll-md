@@ -4,6 +4,7 @@ require 'fileutils'
 require 'jekyll'
 require_relative 'configuration'
 require_relative 'converter'
+require_relative 'front_matter'
 
 module Jekyll
   module Md
@@ -29,6 +30,9 @@ module Jekyll
 
         markdown = converter.convert(item.output, selector: config.selector_for(item))
         next unless markdown
+
+        fields = config.frontmatter_fields_for(item)
+        markdown = "#{FrontMatter.new(fields).build(item, site)}#{markdown}" unless fields.empty?
 
         FileUtils.mkdir_p(File.dirname(dest_path))
         File.write(dest_path, markdown)

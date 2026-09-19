@@ -64,18 +64,22 @@ md:
   selector: "#markdown-content" # CSS selector to convert; default nil (try <main>/[role=main], then the whole page)
   strip: [script, style]    # elements always removed from the selected content before conversion
   link: true                 # inject <link rel="alternate" type="text/markdown"> into <head>, default true
+  frontmatter: false         # prepend a YAML front matter block; true, false, or an explicit field list, default false
   exclude:                   # array of URL glob patterns to skip entirely
     - /404.html
     - /assets/**
 ```
 
+`frontmatter: true` builds `title`, `date`, and `tags` (whichever are present); pass an explicit array, e.g. `frontmatter: [title, date, tags, url, author, description]`, to control which fields are included and in what order. `url` and `author` fall back to `site.url`/`site.author` when the page doesn't set its own.
+
 ### Per-Page Front Matter
 
 ```yaml
 ---
-md: false          # opt this page out of Markdown generation entirely
-md_link: false     # generate the .md file, but don't add the <link> tag to this page
-md_selector: "#x"  # override the selector for this page only
+md: false                   # opt this page out of Markdown generation entirely
+md_link: false              # generate the .md file, but don't add the <link> tag to this page
+md_selector: "#x"           # override the selector for this page only
+md_frontmatter: [title]     # override the site-wide frontmatter setting for this page only
 ---
 ```
 
