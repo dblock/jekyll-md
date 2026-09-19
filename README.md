@@ -98,13 +98,14 @@ Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front mat
 
 ## Similar Projects
 
-### jekyll-llms
+| | Markdown source | Discovery `<link>` | `llms.txt` | Notes |
+|---|---|---|---|---|
+| **jekyll-md** | Rendered HTML | Automatic | Not generated (author your own, see above) | Covers generated pages (tags, pagination); no source-to-source fidelity issues, but HTML round-trip is lossy for complex markup |
+| [jekyll-llms](https://github.com/skatkov/jekyll-llms) | Source file | Automatic | Yes, exhaustive by default | Inline HTML leaks through verbatim; only pages with Markdown/HTML source get a sidecar |
+| [jekyll-markdown-output](https://github.com/abhinavs/jekyll-markdown-output) | Source file | None (manual URL guessing) | No | Adds a synthetic YAML front matter block (title, date, tags, etc.) and optional `# Title` heading to each sidecar |
+| [jekyll-agent-markdown](https://github.com/lucianghinda/jekyll-agent-markdown) | Source file | Manual (`{% agent_markdown_link %}` in layout) | Yes, curated (opt-in pages/collections, per-doc `section`/`optional`) | Can append a metadata footer/header (dates, author, description, source link) to each sidecar; also supports `llms-full.txt` |
 
-Unlike `jekyll-md`, [jekyll-llms](https://github.com/skatkov/jekyll-llms) generates Markdown sidecars from each page's **source** — your original Markdown/HTML file, with Liquid resolved but otherwise untouched — plus an `llms.txt` index. Inline HTML (`<a>`, `<img>`, tables, embeds, etc.) leaks through verbatim, and only pages with Markdown/HTML source get a sidecar, not generated pages like tag or pagination pages.
-
-### jekyll-markdown-output
-
-Like `jekyll-llms`, [jekyll-markdown-output](https://github.com/abhinavs/jekyll-markdown-output) converts from each document's **source** rather than its rendered HTML, re-reading the original file from disk and re-rendering Liquid against it, so only docs in configured collections and pages with a `.md`/`.markdown` source file get a sidecar — not generated pages like tag or pagination pages. It also adds a synthetic YAML front matter block (title, date, url, summary, tags, category, author) and an optional `# Title` heading to each output file, which `jekyll-md` does not do, but it has no equivalent to `jekyll-md`'s `<link rel="alternate" type="text/markdown">` discovery tag, so agents have to guess the `.md` URL exists rather than find it in the page's `<head>`.
+All three alternatives convert from each document's **source** rather than its rendered HTML: they re-read the original Markdown/HTML file from disk (Liquid resolved, but otherwise untouched), so generated pages without a Markdown/HTML source (tag pages, pagination) don't get a sidecar, and inline HTML in the source leaks through verbatim rather than being converted.
 
 ## Contributing
 
