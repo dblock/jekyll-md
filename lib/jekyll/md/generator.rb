@@ -4,6 +4,7 @@ require 'fileutils'
 require 'jekyll'
 require_relative 'configuration'
 require_relative 'converter'
+require_relative 'layout_renderer'
 
 module Jekyll
   module Md
@@ -14,6 +15,7 @@ module Jekyll
       next unless config.enabled?
 
       converter = Converter.new(strip_selectors: config.strip_selectors)
+      layout_renderer = LayoutRenderer.new
 
       (site.pages + site.docs_to_write).each do |item|
         next unless item.destination(site.dest).end_with?('.html')
@@ -29,6 +31,9 @@ module Jekyll
 
         markdown = converter.convert(item.output, selector: config.selector_for(item))
         next unless markdown
+
+        layout = config.layout_for(item)
+        markdown = layout_renderer.render(layout, markdown, item, site) if layout
 
         FileUtils.mkdir_p(File.dirname(dest_path))
         File.write(dest_path, markdown)

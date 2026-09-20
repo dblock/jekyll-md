@@ -60,4 +60,14 @@ describe 'building a site with jekyll-md' do
       '<link href="/2026/01/01/a-test-post.md" type="text/markdown" rel="alternate" title="Markdown">'
     )
   end
+
+  context 'with a per-page md_layout' do
+    it 'wraps the converted content in the custom layout' do
+      markdown = site_file('templated.md')
+      expect(markdown).to eq(
+        "# Templated Page\n\nThis page uses a custom per-page template.\n\n\n" \
+        "Source: https://example.com/templated/\n"
+      )
+    end
+  end
 end
