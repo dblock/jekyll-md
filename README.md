@@ -69,6 +69,39 @@ md:
     - /assets/**
 ```
 
+### Custom Layouts
+
+By default, the generated `.md` file is just the converted content, with nothing added. If you want a title heading, a front matter block, a "Source:" link back to the HTML page, or any combination of these in any order, wrap the content in a layout. This reuses Jekyll's own layout mechanism (`_layouts/`), rendered against the converted Markdown instead of HTML — give it a name distinct from any HTML layout (e.g. `_layouts/md_page.liquid`, not `_layouts/page.html`) so the two don't collide:
+
+```liquid
+<!-- _layouts/md_page.liquid -->
+---
+title: {{ page.title }}
+---
+
+# {{ page.title }}
+
+{{ content }}
+
+Source: {{ site.url }}{{ page.url }}
+```
+
+```yaml
+md:
+  layout: md_page
+```
+
+The layout has access to `content` (the already-converted Markdown), `page` (the same front matter/data a Jekyll layout sees), and `site` (the site payload) — the same variables available in a normal Jekyll layout.
+
+You can override, or opt out of, the site-wide layout for an individual page via front matter:
+
+```yaml
+---
+md_layout: md_alt   # use a different layout for this page only
+md_layout: false    # skip the layout for this page even though one is configured site-wide
+---
+```
+
 ### Per-Page Front Matter
 
 ```yaml
@@ -76,6 +109,7 @@ md:
 md: false          # opt this page out of Markdown generation entirely
 md_link: false     # generate the .md file, but don't add the <link> tag to this page
 md_selector: "#x"  # override the selector for this page only
+md_layout: "..."   # override the site-wide layout for this page only, or `false` to skip it
 ---
 ```
 

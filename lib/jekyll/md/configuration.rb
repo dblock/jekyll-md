@@ -9,7 +9,8 @@ module Jekyll
         'selector' => nil,
         'strip' => %w[script style],
         'link' => true,
-        'exclude' => []
+        'exclude' => [],
+        'layout' => nil
       }.freeze
 
       def initialize(site_config)
@@ -54,6 +55,19 @@ module Jekyll
 
       def selector_for(item)
         item.data['md_selector'] || selector
+      end
+
+      def layout
+        @config['layout']
+      end
+
+      # A per-page `md_layout` front matter value overrides the
+      # site-wide layout; either may be `false` to opt a page back out
+      # of the layout even when one is configured site-wide.
+      def layout_for(item)
+        return false if item.data['md_layout'] == false
+
+        item.data['md_layout'] || layout
       end
     end
   end
