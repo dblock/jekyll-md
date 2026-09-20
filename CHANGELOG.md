@@ -1,3 +1,7 @@
+### 0.2.1 (Next)
+
+* Your contribution here.
+
 ### 0.2.0 (2026/09/20)
 
 * Replaces non-breaking spaces (`&nbsp;`) with regular spaces in converted Markdown - [@dblock](https://github.com/dblock).
