@@ -64,9 +64,23 @@ md:
   selector: "#markdown-content" # CSS selector to convert; default nil (try <main>/[role=main], then the whole page)
   strip: [script, style]        # elements always removed from the selected content before conversion
   link: true                    # inject <link rel="alternate" type="text/markdown"> into <head>, default true
+  renderer: reverse_markdown    # HTML-to-Markdown engine, default reverse_markdown
   exclude:                      # array of URL glob patterns to skip entirely
     - /404.html
     - /assets/**
+```
+
+### Renderers
+
+`jekyll-md` supports three HTML-to-Markdown renderers, selected via `md: renderer:`:
+
+* `reverse_markdown` (default) - a hard dependency of this gem, no extra setup required.
+* `html-to-markdown` - a fast, Rust-backed native gem that produces output nearly identical to `reverse_markdown`. It is not a dependency of this gem, so add it to your own `Gemfile` (`gem "html-to-markdown"`) before selecting it.
+* `kramdown` - already ships with Jekyll, so it requires no extra dependency, but its HTML-to-Markdown conversion has some limitations compared to `reverse_markdown`: links are emitted in reference style (`[text][1]` with a footnote) rather than inline, code blocks are indented with four spaces instead of fenced with triple backticks, and tables and generic containers (`<div>`, `<span>`) are left as raw HTML rather than being converted.
+
+```yaml
+md:
+  renderer: html-to-markdown
 ```
 
 ### Custom Layouts

@@ -17,6 +17,7 @@ describe Jekyll::Md::Configuration do
     it { expect(config.selector_for(item)).to be_nil }
     it { expect(config.layout).to be_nil }
     it { expect(config.layout_for(item)).to be_nil }
+    it { expect(config.renderer).to eq('reverse_markdown') }
   end
 
   describe 'site-wide overrides' do
@@ -80,6 +81,18 @@ describe Jekyll::Md::Configuration do
       config = described_class.new('layout' => 'md_page')
       opted_out = double('item', url: '/foo/', data: { 'md_layout' => false }) # rubocop:disable RSpec/VerifiedDoubles
       expect(config.layout_for(opted_out)).to be(false)
+    end
+  end
+
+  describe 'renderer' do
+    it 'defaults to reverse_markdown' do
+      config = described_class.new({})
+      expect(config.renderer).to eq('reverse_markdown')
+    end
+
+    it 'uses the site-wide renderer' do
+      config = described_class.new('renderer' => 'html-to-markdown')
+      expect(config.renderer).to eq('html-to-markdown')
     end
   end
 end

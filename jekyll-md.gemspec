@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors = ['Daniel Doubrovkine']
   s.email = 'dblock@dblock.org'
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 3.0'
+  s.required_ruby_version = '>= 3.2'
   s.required_rubygems_version = '>= 2.5'
   s.files = Dir['lib/**/*'] + ['README.md', 'LICENSE.md', 'CHANGELOG.md']
   s.require_paths = ['lib']

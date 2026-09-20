@@ -1,6 +1,8 @@
-### 0.2.1 (Next)
+### 0.3.0 (Next)
 
 * Your contribution here.
+* [#8](https://github.com/dblock/jekyll-md/pull/8): Adds `md: renderer:` to select the HTML-to-Markdown engine: `reverse_markdown` (default), `html-to-markdown`, or `kramdown` - [@dblock](https://github.com/dblock).
+* [#8](https://github.com/dblock/jekyll-md/pull/8): Requires Ruby >= 3.2 - [@dblock](https://github.com/dblock).
 
 ### 0.2.0 (2026/09/20)
 

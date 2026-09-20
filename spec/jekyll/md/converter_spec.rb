@@ -83,6 +83,14 @@ describe Jekyll::Md::Converter do
       html = '<body><div id="content">   </div></body>'
       expect(converter.convert(html, selector: '#content')).to be_nil
     end
+
+    it 'delegates conversion to the injected renderer' do
+      renderer = double('renderer', render: 'custom output') # rubocop:disable RSpec/VerifiedDoubles
+      custom_converter = described_class.new(renderer: renderer)
+      html = '<body><div id="content">hi</div></body>'
+      expect(custom_converter.convert(html, selector: '#content')).to eq("custom output\n")
+      expect(renderer).to have_received(:render).with('hi')
+    end
   end
 
   describe '.md_url_for' do

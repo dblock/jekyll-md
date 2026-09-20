@@ -5,6 +5,7 @@ require 'jekyll'
 require_relative 'configuration'
 require_relative 'converter'
 require_relative 'layout_renderer'
+require_relative 'renderer'
 
 module Jekyll
   module Md
@@ -14,7 +15,7 @@ module Jekyll
       config = Configuration.new(site.config['md'])
       next unless config.enabled?
 
-      converter = Converter.new(strip_selectors: config.strip_selectors)
+      converter = Converter.new(strip_selectors: config.strip_selectors, renderer: Renderer.for(config.renderer))
       layout_renderer = LayoutRenderer.new
 
       (site.pages + site.docs_to_write).each do |item|
