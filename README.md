@@ -60,11 +60,11 @@ md_selector: "#post-body"
 
 ```yaml
 md:
-  enabled: true              # master on/off switch, default true
+  enabled: true                 # master on/off switch, default true
   selector: "#markdown-content" # CSS selector to convert; default nil (try <main>/[role=main], then the whole page)
-  strip: [script, style]    # elements always removed from the selected content before conversion
-  link: true                 # inject <link rel="alternate" type="text/markdown"> into <head>, default true
-  exclude:                   # array of URL glob patterns to skip entirely
+  strip: [script, style]        # elements always removed from the selected content before conversion
+  link: true                    # inject <link rel="alternate" type="text/markdown"> into <head>, default true
+  exclude:                      # array of URL glob patterns to skip entirely
     - /404.html
     - /assets/**
 ```
