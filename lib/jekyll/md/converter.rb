@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'nokogiri'
-require 'reverse_markdown'
+require_relative 'renderers/reverse_markdown_renderer'
 
 module Jekyll
   module Md
@@ -21,8 +21,9 @@ module Jekyll
       # content, not its header/nav/footer chrome".
       DEFAULT_SELECTORS = ['main', '[role="main"]'].freeze
 
-      def initialize(strip_selectors: [])
+      def initialize(strip_selectors: [], renderer: Renderers::ReverseMarkdown.new)
         @strip_selectors = strip_selectors
+        @renderer = renderer
       end
 
       # Returns the converted Markdown for +html+, scoped to +selector+
@@ -38,11 +39,7 @@ module Jekyll
         @strip_selectors.each { |s| node.css(s).remove }
         normalize_non_breaking_spaces(node)
 
-        markdown = ReverseMarkdown.convert(
-          node.inner_html,
-          unknown_tags: :bypass,
-          github_flavored: true
-        ).strip
+        markdown = @renderer.render(node.inner_html).strip
 
         return nil if markdown.empty?
 

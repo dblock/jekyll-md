@@ -10,7 +10,8 @@ module Jekyll
         'strip' => %w[script style],
         'link' => true,
         'exclude' => [],
-        'layout' => nil
+        'layout' => nil,
+        'renderer' => 'reverse_markdown'
       }.freeze
 
       def initialize(site_config)
@@ -68,6 +69,10 @@ module Jekyll
         return false if item.data['md_layout'] == false
 
         item.data['md_layout'] || layout
+      end
+
+      def renderer
+        @config['renderer']
       end
     end
   end

@@ -70,4 +70,31 @@ describe 'building a site with jekyll-md' do
       )
     end
   end
+
+  context 'with a configured renderer' do
+    let(:alt_destination) { File.join(fixture_site_path, '_site_kramdown') }
+
+    before do
+      Jekyll.logger.log_level = :error
+      config = Jekyll.configuration(
+        {
+          'source' => fixture_site_path,
+          'destination' => alt_destination,
+          'md' => { 'renderer' => 'kramdown' }
+        }
+      )
+      Jekyll::Site.new(config).process
+    end
+
+    after { FileUtils.rm_rf(alt_destination) }
+
+    it 'uses the configured renderer instead of the default' do
+      markdown = File.read(File.join(alt_destination, 'about.md'))
+      expect(markdown).to include('This is the about page.')
+      # kramdown's reference-style links are a visible marker that the
+      # alternate renderer, not reverse_markdown, produced this file.
+      post = File.read(File.join(alt_destination, '2026/01/01/a-test-post.md'))
+      expect(post).to include('[link][1]')
+    end
+  end
 end
