@@ -128,7 +128,9 @@ If a page at the derived destination path already exists after Jekyll writes the
 
 `jekyll-md` intentionally does not generate an [`llms.txt`](https://llmstxt.org). The spec asks for a *curated* index that "stays small enough to fit in context," explicitly contrasting itself with `sitemap.xml`, which it criticizes for being too large and unfiltered. A plugin can't know which of your pages are worth surfacing, and dumping every post/page (as some plugins do) just recreates the sitemap problem in Markdown.
 
-Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front matter, opting in specific content (e.g. via a per-page `pinned: true`/`llms: true` flag) rather than listing everything. See [code.dblock.org](https://code.dblock.org/llms.txt) for a working example that lists pinned highlights, the 10 most recent posts, and key pages out of a blog with almost 600 posts: the [template](https://github.com/dblock/code.dblock.org/blob/gh-pages/llms.txt) and the [commit that added it](https://github.com/dblock/code.dblock.org/commit/1a40e12).
+Instead, author `llms.txt` yourself as a plain Jekyll page with Liquid front matter, opting in specific content (e.g. via a per-page `pinned: true`/`llms: true` flag) rather than listing everything. See [code.dblock.org](https://code.dblock.org/llms.txt) for a working example that lists pinned highlights, the 10 most recent posts, and key pages out of a blog with almost 600 posts: the [template](https://github.com/dblock/code.dblock.org/blob/gh-pages/llms.txt).
+
+The [v2 spec](https://llmstxt.org/changes.html) also allows nested/scoped `llms.txt` files, e.g. `/docs/llms.txt` covering only pages under `/docs/`, with the most specific file (closest to a given URL) taking precedence over the site-wide one at `/llms.txt`. Same idea applies: each is just another hand-curated Jekyll page, not a plugin feature.
 
 ## Similar Projects
 
